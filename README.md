@@ -1,2 +1,4 @@
 # Reversify
-Your Next-gen reverse marketplace.Where you can get deal's directly by seller's.
+Reversify is an AI-powered reverse marketplace where buyers post their product demand and sellers compete to offer the best price.
+
+Unlike traditional e-commerce platforms where sellers list products first, Reversify flips the model — buyers drive the marketplace.
