@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demand Details | Reversify</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .details-page {
+            min-height: 100vh;
+            padding: 120px 5% 80px;
+        }
+        
+        .details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+        }
+        
+        .details-main {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .details-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 40px;
+        }
+        
+        .demand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .demand-title-section h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+        
+        .demand-meta-line {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+        
+        .meta-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .urgent-badge {
+            background: linear-gradient(135deg, rgba(255, 61, 113, 0.2), rgba(255, 94, 0, 0.2));
+            color: var(--danger);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--danger);
+            animation: pulse-tag 2s infinite;
+        }
+        
+        .section-heading {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .description-text {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-value {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .offers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .offer-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s var(--transition-smooth);
+        }
+        
+        .offer-card:hover {
+            transform: translateX(8px);
+            border-color: var(--primary);
+        }
+        
+        .offer-card.best {
+            border: 2px solid var(--success);
+            background: linear-gradient(135deg, rgba(0, 230, 118, 0.05), rgba(0, 210, 255, 0.05));
+        }
+        
+        .offer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .seller-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+        
+        .seller-details h4 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .seller-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--warning);
+            font-size: 0.9rem;
+        }
+        
+        .offer-price {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--success);
+        }
+        
+        .offer-details {
+            margin: 15px 0;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .offer-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .best-offer-badge {
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            color: white;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .price-card {
+            background: linear-gradient(135deg, rgba(255, 94, 0, 0.1), rgba(0, 210, 255, 0.1));
+            border: 2px solid var(--primary);
+            border-radius: 24px;
+            padding: 35px;
+            text-align: center;
+        }
+        
+        .price-label {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .price-amount {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        
+        .ai-price-oracle {
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .ai-price-oracle h4 {
+            color: var(--accent);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ai-price-oracle p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .action-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 30px;
+        }
+        
+        .action-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        @media (max-width: 1024px) {
+            .details-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fa-solid fa-sun sun-icon"></i>
+        <i class="fa-solid fa-moon moon-icon"></i>
+    </button>
+
+    <!-- Background -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- NAVBAR -->
+    <header class="navbar glass">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+            <div class="logo-icon">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </div>
+            <span class="logo-text">Reversify</span>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="index.html#marketplace" class="nav-link">Marketplace</a>
+            <a href="post-demand.html" class="nav-link">Post Demand</a>
+            <a href="seller-dashboard.html" class="nav-link">For Sellers</a>
+        </nav>
+        
+        <div class="nav-actions">
+            <button class="btn btn-ghost" onclick="window.location.href='profile.html'">
+                <i class="fa-regular fa-user"></i> Profile
+            </button>
+        </div>
+    </header>
+
+    <div class="details-page">
+        <div class="details-container">
+            <!-- Main Content -->
+            <div class="details-main">
+                <!-- Header Card -->
+                <div class="details-card">
+                    <div class="demand-header">
+                        <div class="demand-title-section">
+                            <h1>iPhone 14 Pro Max 256GB</h1>
+                            <div class="demand-meta-line">
+                                <span class="meta-tag">
+                                    <i class="fa-solid fa-clock"></i> Posted 2h ago
+                                </span>
+                                <span class="meta-tag">
+                                    <i class="fa-solid fa-location-dot"></i> Mumbai, MH
+                                </span>
+                                <span class="meta-tag">
+                                    <i class="fa-solid fa-tag"></i> Electronics
+                                </span>
+                            </div>
+                        </div>
+                        <span class="urgent-badge">
+                            <i class="fa-solid fa-fire"></i> URGENT
+                        </span>
+                    </div>
+
+                    <h3 class="section-heading">
+                        <i class="fa-solid fa-align-left"></i> Description
+                    </h3>
+                    <p class="description-text">
+                        Looking for a brand new or gently used iPhone 14 Pro Max with 256GB storage. 
+                        Preferably in Deep Purple or Space Black color. Device must be in excellent condition 
+                        with no scratches or dents. Original box and accessories are a plus. Must have at 
+                        least 90% battery health. Willing to inspect before purchase. Need delivery within 24 hours.
+                    </p>
+
+                    <hr style="border: none; border-top: 1px solid var(--border-light); margin: 30px 0;">
+
+                    <h3 class="section-heading">
+                        <i class="fa-solid fa-info-circle"></i> Demand Details
+                    </h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Timeline</span>
+                            <span class="info-value">Within 24 hours</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Preferred Condition</span>
+                            <span class="info-value">New / Like New</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Payment Method</span>
+                            <span class="info-value">Escrow Protected</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Delivery</span>
+                            <span class="info-value">In-person / Courier</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Offers Card -->
+                <div class="details-card">
+                    <h3 class="section-heading">
+                        <i class="fa-solid fa-gavel"></i> Seller Offers (5)
+                    </h3>
+
+                    <div class="offers-list">
+                        <!-- Best Offer -->
+                        <div class="offer-card best">
+                            <div class="offer-header">
+                                <div class="seller-info">
+                                    <div class="seller-avatar" style="background-image: url('https://i.pravatar.cc/100?img=1')"></div>
+                                    <div class="seller-details">
+                                        <h4>TechMart Mumbai</h4>
+                                        <div class="seller-rating">
+                                            <i class="fa-solid fa-star"></i> 4.9 (234 reviews)
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="best-offer-badge">
+                                    <i class="fa-solid fa-trophy"></i> Best Offer
+                                </span>
+                            </div>
+                            <div class="offer-price">₹83,500</div>
+                            <p class="offer-details">
+                                Brand new, sealed box. Deep Purple color. Includes full Apple warranty. 
+                                Can deliver within 12 hours to your location. All original accessories included.
+                            </p>
+                            <div class="offer-actions">
+                                <button class="btn btn-glow" style="flex: 1;">
+                                    <i class="fa-solid fa-check"></i> Accept Offer
+                                </button>
+                                <button class="btn btn-ghost">
+                                    <i class="fa-solid fa-comment"></i> Chat
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Other Offers -->
+                        <div class="offer-card">
+                            <div class="offer-header">
+                                <div class="seller-info">
+                                    <div class="seller-avatar" style="background-image: url('https://i.pravatar.cc/100?img=2')"></div>
+                                    <div class="seller-details">
+                                        <h4>Mobile House</h4>
+                                        <div class="seller-rating">
+                                            <i class="fa-solid fa-star"></i> 4.7 (189 reviews)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="offer-price">₹84,000</div>
+                            <p class="offer-details">
+                                New, Space Black. Apple Care+ included. 24 hour delivery available.
+                            </p>
+                            <div class="offer-actions">
+                                <button class="btn btn-primary" style="flex: 1;">
+                                    <i class="fa-solid fa-check"></i> Accept
+                                </button>
+                                <button class="btn btn-ghost">
+                                    <i class="fa-solid fa-comment"></i> Chat
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="offer-card">
+                            <div class="offer-header">
+                                <div class="seller-info">
+                                    <div class="seller-avatar" style="background-image: url('https://i.pravatar.cc/100?img=3')"></div>
+                                    <div class="seller-details">
+                                        <h4>Gadget World</h4>
+                                        <div class="seller-rating">
+                                            <i class="fa-solid fa-star"></i> 4.8 (312 reviews)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="offer-price">₹85,500</div>
+                            <p class="offer-details">
+                                Brand new sealed. All colors available. Same day delivery.
+                            </p>
+                            <div class="offer-actions">
+                                <button class="btn btn-primary" style="flex: 1;">
+                                    <i class="fa-solid fa-check"></i> Accept
+                                </button>
+                                <button class="btn btn-ghost">
+                                    <i class="fa-solid fa-comment"></i> Chat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Price Card -->
+                <div class="price-card">
+                    <div class="price-label">Target Price</div>
+                    <div class="price-amount">₹85,000</div>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">
+                        <i class="fa-solid fa-chart-line"></i> Avg market price: ₹86,500
+                    </p>
+
+                    <div class="ai-price-oracle">
+                        <h4>
+                            <i class="fa-solid fa-robot"></i> AI Price Oracle
+                        </h4>
+                        <p>Fair market range: ₹82,000 - ₹88,000 based on 127 recent transactions</p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="action-card">
+                    <h3>Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary btn-large" style="width: 100%;">
+                            <i class="fa-solid fa-edit"></i> Edit Demand
+                        </button>
+                        <button class="btn btn-ghost btn-large" style="width: 100%;">
+                            <i class="fa-solid fa-share"></i> Share
+                        </button>
+                        <button class="btn btn-ghost btn-large" style="width: 100%;">
+                            <i class="fa-solid fa-flag"></i> Report Issue
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="action-card">
+                    <h3>Activity Stats</h3>
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: var(--text-muted);">Views</span>
+                                <strong>247</strong>
+                            </div>
+                            <div style="height: 6px; background: var(--bg-elevated); border-radius: 3px; overflow: hidden;">
+                                <div style="width: 70%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: var(--text-muted);">Interested Sellers</span>
+                                <strong>12</strong>
+                            </div>
+                            <div style="height: 6px; background: var(--bg-elevated); border-radius: 3px; overflow: hidden;">
+                                <div style="width: 45%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: var(--text-muted);">Active Offers</span>
+                                <strong>5</strong>
+                            </div>
+                            <div style="height: 6px; background: var(--bg-elevated); border-radius: 3px; overflow: hidden;">
+                                <div style="width: 60%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Get demand ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const demandId = urlParams.get('id');
+        console.log('Viewing demand:', demandId);
+
+        // In production, fetch demand details from API
+        // const response = await fetch(`/api/demands/${demandId}`);
+        // const demandData = await response.json();
+    </script>
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard | Reversify</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .dashboard {
+            min-height: 100vh;
+            padding: 120px 5% 80px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .dashboard-title h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .dashboard-title p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s var(--transition-smooth);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--shadow);
+        }
+        
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .stat-card-value {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card-label {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+        
+        .stat-card-change {
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .stat-card-change.positive {
+            color: var(--success);
+        }
+        
+        .stat-card-change.negative {
+            color: var(--danger);
+        }
+        
+        .dashboard-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-light);
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s var(--transition-smooth);
+        }
+        
+        .tab-btn:hover {
+            color: var(--text-main);
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .opportunities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .opportunity-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: 18px;
+            padding: 25px;
+            transition: all 0.3s var(--transition-smooth);
+        }
+        
+        .opportunity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--shadow);
+        }
+        
+        .opp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .opp-badge {
+            background: linear-gradient(135deg, rgba(0, 230, 118, 0.15), rgba(0, 210, 255, 0.15));
+            color: var(--success);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 1px solid var(--success);
+        }
+        
+        .opp-time {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .opp-title {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+        
+        .opp-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .opp-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        
+        .opp-price {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+        
+        .bid-form {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .bid-input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-light);
+            background: var(--bg-elevated);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+        
+        .bid-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+        
+        .analysis-chart {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-header {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fa-solid fa-sun sun-icon"></i>
+        <i class="fa-solid fa-moon moon-icon"></i>
+    </button>
+
+    <!-- Background -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- NAVBAR -->
+    <header class="navbar glass">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+            <div class="logo-icon">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </div>
+            <span class="logo-text">Reversify</span>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="index.html#marketplace" class="nav-link">Marketplace</a>
+            <a href="seller-dashboard.html" class="nav-link" style="color: var(--primary);">Dashboard</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+        </nav>
+        
+        <div class="nav-actions">
+            <button class="btn btn-primary">
+                <i class="fa-solid fa-bell"></i>
+                <span style="background: var(--danger); border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">3</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <h1>Seller Dashboard</h1>
+                <p>Welcome back, Rajesh! You have 12 new opportunities today.</p>
+            </div>
+            <button class="btn btn-glow">
+                <i class="fa-solid fa-cog"></i> Settings
+            </button>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-card-icon" style="background: linear-gradient(135deg, rgba(255, 94, 0, 0.2), rgba(0, 210, 255, 0.2)); color: var(--primary);">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                </div>
+                <div class="stat-card-value gradient-text">₹2.4L</div>
+                <div class="stat-card-label">Revenue This Month</div>
+                <div class="stat-card-change positive">
+                    <i class="fa-solid fa-arrow-up"></i> 23% from last month
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-card-icon" style="background: linear-gradient(135deg, rgba(0, 230, 118, 0.2), rgba(0, 210, 255, 0.2)); color: var(--success);">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                </div>
+                <div class="stat-card-value" style="color: var(--success);">47</div>
+                <div class="stat-card-label">Successful Deals</div>
+                <div class="stat-card-change positive">
+                    <i class="fa-solid fa-arrow-up"></i> 18% win rate
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-card-icon" style="background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(255, 94, 0, 0.2)); color: var(--accent);">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                <div class="stat-card-value" style="color: var(--accent);">4.8</div>
+                <div class="stat-card-label">Seller Rating</div>
+                <div class="stat-card-change positive">
+                    <i class="fa-solid fa-arrow-up"></i> 127 reviews
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-card-icon" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 94, 0, 0.2)); color: var(--warning);">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                </div>
+                <div class="stat-card-value" style="color: var(--warning);">4.2h</div>
+                <div class="stat-card-label">Avg Response Time</div>
+                <div class="stat-card-change positive">
+                    <i class="fa-solid fa-arrow-down"></i> 15% faster
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Tabs -->
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" data-tab="opportunities">
+                <i class="fa-solid fa-bullseye"></i> New Opportunities (12)
+            </button>
+            <button class="tab-btn" data-tab="active">
+                <i class="fa-solid fa-fire"></i> Active Bids (8)
+            </button>
+            <button class="tab-btn" data-tab="won">
+                <i class="fa-solid fa-trophy"></i> Won Deals (47)
+            </button>
+            <button class="tab-btn" data-tab="analytics">
+                <i class="fa-solid fa-chart-bar"></i> Analytics
+            </button>
+        </div>
+
+        <!-- New Opportunities Tab -->
+        <div class="tab-content active" id="opportunities">
+            <div class="opportunities-grid">
+                <div class="opportunity-card">
+                    <div class="opp-header">
+                        <span class="opp-badge"><i class="fa-solid fa-bolt"></i> NEW</span>
+                        <span class="opp-time">15m ago</span>
+                    </div>
+                    <h3 class="opp-title">iPhone 14 Pro Max 256GB</h3>
+                    <div class="opp-meta">
+                        <div class="opp-meta-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Mumbai, MH
+                        </div>
+                        <div class="opp-meta-item">
+                            <i class="fa-solid fa-users"></i>
+                            5 sellers bidding
+                        </div>
+                        <div class="opp-meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            Urgent - Needed within 24h
+                        </div>
+                    </div>
+                    <div class="opp-price">₹85,000 <span style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">target</span></div>
+                    <div class="bid-form">
+                        <input type="number" class="bid-input" placeholder="Your offer (₹)">
+                        <button class="btn btn-primary">
+                            <i class="fa-solid fa-paper-plane"></i> Bid
+                        </button>
+                    </div>
+                    <button class="btn btn-ghost" style="width: 100%;">
+                        <i class="fa-solid fa-eye"></i> View Details
+                    </button>
+                </div>
+
+                <div class="opportunity-card">
+                    <div class="opp-header">
+                        <span class="opp-badge"><i class="fa-solid fa-bolt"></i> NEW</span>
+                        <span class="opp-time">42m ago</span>
+                    </div>
+                    <h3 class="opp-title">MacBook Pro M2 16GB</h3>
+                    <div class="opp-meta">
+                        <div class="opp-meta-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Pune, MH
+                        </div>
+                        <div class="opp-meta-item">
+                            <i class="fa-solid fa-users"></i>
+                            3 sellers bidding
+                        </div>
+                        <div class="opp-meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            Within a week
+                        </div>
+                    </div>
+                    <div class="opp-price">₹1,45,000 <span style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">target</span></div>
+                    <div class="bid-form">
+                        <input type="number" class="bid-input" placeholder="Your offer (₹)">
+                        <button class="btn btn-primary">
+                            <i class="fa-solid fa-paper-plane"></i> Bid
+                        </button>
+                    </div>
+                    <button class="btn btn-ghost" style="width: 100%;">
+                        <i class="fa-solid fa-eye"></i> View Details
+                    </button>
+                </div>
+
+                <div class="opportunity-card">
+                    <div class="opp-header">
+                        <span class="opp-badge" style="background: rgba(255, 215, 0, 0.15); color: var(--warning); border-color: var(--warning);">
+                            <i class="fa-solid fa-star"></i> HOT
+                        </span>
+                        <span class="opp-time">1h ago</span>
+                    </div>
+                    <h3 class="opp-title">Sony A7III Camera Body</h3>
+                    <div class="opp-meta">
+                        <div class="opp-meta-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Bangalore, KA
+                        </div>
+                        <div class="opp-meta-item">
+                            <i class="fa-solid fa-users"></i>
+                            1 seller bidding
+                        </div>
+                        <div class="opp-meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            Urgent - Within 24h
+                        </div>
+                    </div>
+                    <div class="opp-price">₹1,20,000 <span style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">target</span></div>
+                    <div class="bid-form">
+                        <input type="number" class="bid-input" placeholder="Your offer (₹)">
+                        <button class="btn btn-primary">
+                            <i class="fa-solid fa-paper-plane"></i> Bid
+                        </button>
+                    </div>
+                    <button class="btn btn-ghost" style="width: 100%;">
+                        <i class="fa-solid fa-eye"></i> View Details
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Bids Tab -->
+        <div class="tab-content" id="active">
+            <p style="text-align: center; color: var(--text-muted); padding: 50px;">Your active bids will appear here</p>
+        </div>
+
+        <!-- Won Deals Tab -->
+        <div class="tab-content" id="won">
+            <p style="text-align: center; color: var(--text-muted); padding: 50px;">Your completed deals will appear here</p>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div class="tab-content" id="analytics">
+            <div class="analysis-chart">
+                <h3 class="chart-header">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Revenue Trend (Last 6 Months)
+                </h3>
+                <div class="chart-placeholder">
+                    <div style="text-align: center;">
+                        <i class="fa-solid fa-chart-bar" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <p>Chart visualization would be rendered here using Chart.js or similar library</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h4 style="margin-bottom: 15px; color: var(--text-muted);">Top Category</h4>
+                    <div class="stat-card-value" style="font-size: 2rem;">Electronics</div>
+                    <p style="color: var(--text-muted); margin-top: 8px;">28 deals completed</p>
+                </div>
+                <div class="stat-card">
+                    <h4 style="margin-bottom: 15px; color: var(--text-muted);">Best Month</h4>
+                    <div class="stat-card-value" style="font-size: 2rem;">January</div>
+                    <p style="color: var(--text-muted); margin-top: 8px;">₹3.2L revenue</p>
+                </div>
+                <div class="stat-card">
+                    <h4 style="margin-bottom: 15px; color: var(--text-muted);">Avg Deal Size</h4>
+                    <div class="stat-card-value" style="font-size: 2rem;">₹51K</div>
+                    <p style="color: var(--text-muted); margin-top: 8px;">Per transaction</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Tab switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active from all
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                // Add active to clicked
+                btn.classList.add('active');
+                const tabId = btn.dataset.tab;
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
