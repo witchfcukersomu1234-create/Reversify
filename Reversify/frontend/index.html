@@ -3,9 +3,576 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reversify-Your next-gen reverse marketplace</title>
+    <title>Reversify | The Next Generation of E-Commerce</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Distinctive Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Swiper.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
 <body>
-    this is testing purpose so based on this start working on the frontend of the project and make it look good and responsive and also add some functionality to it
+    <!-- Theme Toggle Floating Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fa-solid fa-sun sun-icon"></i>
+        <i class="fa-solid fa-moon moon-icon"></i>
+    </button>
+
+    <!-- Animated Background -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- NAVBAR -->
+    <header class="navbar glass">
+        <div class="logo-container">
+            <!-- Swiper Animated Logo -->
+            <div class="logo-swiper">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="logo">
+                                <div class="logo-icon">
+                                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                </div>
+                                <span class="logo-text">Reversify</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="logo">
+                                <div class="logo-icon pulse">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+                                <span class="logo-text">Reversify</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="logo">
+                                <div class="logo-icon rotate">
+                                    <i class="fa-solid fa-arrows-spin"></i>
+                                </div>
+                                <span class="logo-text">Reversify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="#marketplace" class="nav-link">Marketplace</a>
+            <a href="#how-it-works" class="nav-link">How it Works</a>
+            <a href="#features" class="nav-link">AI Features</a>
+            <a href="seller-dashboard.html" class="nav-link">Sellers</a>
+            <a href="#pricing" class="nav-link">Pricing</a>
+        </nav>
+        
+        <div class="nav-actions">
+            <button class="btn btn-ghost" onclick="window.location.href='profile.html'">
+                <i class="fa-regular fa-user"></i> Login
+            </button>
+            <button class="btn btn-glow" onclick="window.location.href='post-demand.html'">
+                <i class="fa-solid fa-plus"></i> Post Demand
+            </button>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu glass" id="mobileMenu">
+        <nav class="mobile-nav-links">
+            <a href="#marketplace" class="mobile-nav-link">Marketplace</a>
+            <a href="#how-it-works" class="mobile-nav-link">How it Works</a>
+            <a href="#features" class="mobile-nav-link">AI Features</a>
+            <a href="seller-dashboard.html" class="mobile-nav-link">Sellers</a>
+            <a href="#pricing" class="mobile-nav-link">Pricing</a>
+            <a href="profile.html" class="mobile-nav-link">Profile</a>
+        </nav>
+        <button class="btn btn-glow mobile-cta" onclick="window.location.href='post-demand.html'">
+            Post Demand
+        </button>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero animate-on-scroll">
+        <div class="hero-badge float-animation">
+            <i class="fa-solid fa-rocket"></i> The Next Generation of E-Commerce
+        </div>
+        
+        <h1 class="hero-title">
+            <span class="title-line slide-up" style="--delay: 0.1s">Post What You Need.</span>
+            <span class="title-line gradient-text slide-up" style="--delay: 0.2s">Let Sellers Compete.</span>
+        </h1>
+        
+        <p class="hero-subtext fade-in" style="--delay: 0.3s">
+            Reversify flips traditional commerce. Stop searching endlessly. Post your demand, 
+            relax, and watch verified sellers bring you personalized offers with competitive pricing in real-time.
+        </p>
+        
+        <div class="quick-post-bar glass fade-in" style="--delay: 0.4s">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input 
+                type="text" 
+                placeholder="e.g. iPhone 14 Pro Max 256GB, Honda City 2020..." 
+                class="quick-post-input"
+                id="quickSearchInput"
+            >
+            <button class="btn btn-primary" onclick="quickPost()">
+                <i class="fa-solid fa-bolt"></i> Post Now
+            </button>
+        </div>
+
+        <div class="hero-stats fade-in" style="--delay: 0.5s">
+            <div class="stat-item" data-count="2000000">
+                <h3 class="stat-number">$0</h3>
+                <p>Volume Traded</p>
+            </div>
+            <div class="divider"></div>
+            <div class="stat-item" data-count="15000">
+                <h3 class="stat-number">0+</h3>
+                <p>Active Sellers</p>
+            </div>
+            <div class="divider"></div>
+            <div class="stat-item" data-count="24">
+                <h3 class="stat-number">0hr</h3>
+                <p>Avg Match Time</p>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator fade-in" style="--delay: 0.6s">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <p>Scroll to explore</p>
+        </div>
+    </section>
+
+    <!-- LIVE MARKETPLACE -->
+    <section id="marketplace" class="marketplace">
+        <div class="section-header animate-on-scroll">
+            <h2>Live <span class="gradient-text">Marketplace</span></h2>
+            <p>Real-time demands getting matched right now. Join thousands of active transactions.</p>
+        </div>
+        
+        <!-- Search and Filter Bar -->
+        <div class="marketplace-controls animate-on-scroll">
+            <div class="search-bar glass">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search demands..." id="marketplaceSearch">
+            </div>
+            
+            <div class="filter-controls" id="filterControls">
+                <button class="filter-chip active" data-filter="all">
+                    <i class="fa-solid fa-border-all"></i> All
+                </button>
+                <button class="filter-chip" data-filter="Electronics">
+                    <i class="fa-solid fa-laptop"></i> Electronics
+                </button>
+                <button class="filter-chip" data-filter="Vehicles">
+                    <i class="fa-solid fa-car"></i> Vehicles
+                </button>
+                <button class="filter-chip" data-filter="Real Estate">
+                    <i class="fa-solid fa-building"></i> Real Estate
+                </button>
+                <button class="filter-chip" data-filter="Fashion">
+                    <i class="fa-solid fa-shirt"></i> Fashion
+                </button>
+            </div>
+
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid">
+                    <i class="fa-solid fa-grid"></i>
+                </button>
+                <button class="view-btn" data-view="list">
+                    <i class="fa-solid fa-list"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Live Activity Indicator -->
+        <div class="live-indicator animate-on-scroll">
+            <span class="pulse-dot"></span>
+            <span>247 buyers active now</span>
+        </div>
+
+        <div class="requests-grid" id="requestsGrid">
+            <!-- Cards injected via JS -->
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more-container">
+            <button class="btn btn-ghost btn-large" id="loadMoreBtn">
+                Load More Demands
+            </button>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="how">
+        <div class="section-header animate-on-scroll">
+            <h2>How Reversify Works</h2>
+            <p>Three simple steps to get exactly what you want at the best price.</p>
+        </div>
+
+        <div class="steps">
+            <div class="step glass animate-on-scroll" style="--delay: 0.1s">
+                <div class="step-number">01</div>
+                <div class="step-icon">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <h3>Post Your Demand</h3>
+                <p>Describe the product or service you want in detail. Set your target price range and preferred timeline.</p>
+                <div class="step-feature">
+                    <i class="fa-solid fa-check"></i> AI-powered price suggestions
+                </div>
+            </div>
+
+            <div class="connection-line"></div>
+
+            <div class="step glass animate-on-scroll" style="--delay: 0.2s">
+                <div class="step-number">02</div>
+                <div class="step-icon">
+                    <i class="fa-solid fa-gavel"></i>
+                </div>
+                <h3>Sellers Compete</h3>
+                <p>Verified sellers in your area receive instant notifications and compete to offer you the best deal.</p>
+                <div class="step-feature">
+                    <i class="fa-solid fa-check"></i> Real-time bidding wars
+                </div>
+            </div>
+
+            <div class="connection-line"></div>
+
+            <div class="step glass animate-on-scroll" style="--delay: 0.3s">
+                <div class="step-number">03</div>
+                <div class="step-icon">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <h3>Choose & Close</h3>
+                <p>Compare ratings, offers, and warranties. Pick the winner and complete the transaction securely.</p>
+                <div class="step-feature">
+                    <i class="fa-solid fa-check"></i> Escrow protection
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="demo-container animate-on-scroll">
+            <h3>Try It Now - Interactive Demo</h3>
+            <div class="demo-box glass">
+                <div class="demo-step active" id="demoStep1">
+                    <h4>Step 1: Post Demand</h4>
+                    <input type="text" placeholder="What are you looking for?" class="demo-input">
+                    <button class="btn btn-primary" onclick="nextDemoStep(2)">Next</button>
+                </div>
+                <div class="demo-step" id="demoStep2">
+                    <h4>Step 2: Watch Sellers Bid</h4>
+                    <div class="demo-bids">
+                        <div class="demo-bid">Seller A: ₹85,000</div>
+                        <div class="demo-bid">Seller B: ₹82,500</div>
+                        <div class="demo-bid">Seller C: ₹80,000</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="nextDemoStep(3)">Next</button>
+                </div>
+                <div class="demo-step" id="demoStep3">
+                    <h4>Step 3: Choose Winner</h4>
+                    <p>You saved ₹5,000! 🎉</p>
+                    <button class="btn btn-glow" onclick="nextDemoStep(1)">Restart Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI FEATURES -->
+    <section id="features" class="ai">
+        <div class="section-header animate-on-scroll">
+            <h2>
+                <i class="fa-solid fa-wand-magic-sparkles sparkle"></i> 
+                Powered by Advanced AI
+            </h2>
+            <p>State-of-the-art machine learning ensures fair pricing and perfect matches.</p>
+        </div>
+
+        <div class="ai-grid">
+            <div class="ai-card glass animate-on-scroll" style="--delay: 0.1s">
+                <div class="ai-card-header">
+                    <div class="ai-card-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <span class="ai-badge">AI Powered</span>
+                </div>
+                <h3>AI Price Oracle</h3>
+                <p>Our neural network analyzes millions of transactions to recommend fair market prices, preventing overbidding and ensuring you get the best deal.</p>
+                <div class="ai-stats">
+                    <div class="ai-stat">
+                        <strong>99.2%</strong>
+                        <span>Accuracy</span>
+                    </div>
+                    <div class="ai-stat">
+                        <strong>2.5M+</strong>
+                        <span>Predictions</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-card glass animate-on-scroll" style="--delay: 0.2s">
+                <div class="ai-card-header">
+                    <div class="ai-card-icon">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <span class="ai-badge">AI Powered</span>
+                </div>
+                <h3>Smart Matching Engine</h3>
+                <p>Advanced NLP automatically classifies demands and instantly notifies the most relevant, top-rated sellers in your area with real-time alerts.</p>
+                <div class="ai-stats">
+                    <div class="ai-stat">
+                        <strong>&lt; 30s</strong>
+                        <span>Match Time</span>
+                    </div>
+                    <div class="ai-stat">
+                        <strong>98%</strong>
+                        <span>Success Rate</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-card glass animate-on-scroll" style="--delay: 0.3s">
+                <div class="ai-card-header">
+                    <div class="ai-card-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <span class="ai-badge">AI Powered</span>
+                </div>
+                <h3>Fraud Detection</h3>
+                <p>Machine learning algorithms monitor all transactions in real-time, detecting suspicious patterns and protecting both buyers and sellers.</p>
+                <div class="ai-stats">
+                    <div class="ai-stat">
+                        <strong>0.01%</strong>
+                        <span>Fraud Rate</span>
+                    </div>
+                    <div class="ai-stat">
+                        <strong>24/7</strong>
+                        <span>Monitoring</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section id="pricing" class="pricing">
+        <div class="section-header animate-on-scroll">
+            <h2>Simple, Transparent Pricing</h2>
+            <p>Only pay when you find your perfect match. No hidden fees.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card glass animate-on-scroll" style="--delay: 0.1s">
+                <div class="pricing-header">
+                    <h3>Buyers</h3>
+                    <div class="pricing-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+                <div class="price">
+                    <span class="amount">FREE</span>
+                    <span class="period">Forever</span>
+                </div>
+                <ul class="pricing-features">
+                    <li><i class="fa-solid fa-check"></i> Unlimited demand posts</li>
+                    <li><i class="fa-solid fa-check"></i> AI price recommendations</li>
+                    <li><i class="fa-solid fa-check"></i> Seller ratings & reviews</li>
+                    <li><i class="fa-solid fa-check"></i> Secure escrow payments</li>
+                    <li><i class="fa-solid fa-check"></i> 24/7 support</li>
+                </ul>
+                <button class="btn btn-primary btn-large">Start Posting</button>
+            </div>
+
+            <div class="pricing-card glass featured animate-on-scroll" style="--delay: 0.2s">
+                <div class="popular-badge">Most Popular</div>
+                <div class="pricing-header">
+                    <h3>Sellers</h3>
+                    <div class="pricing-icon">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                </div>
+                <div class="price">
+                    <span class="amount">2.5%</span>
+                    <span class="period">Per Transaction</span>
+                </div>
+                <ul class="pricing-features">
+                    <li><i class="fa-solid fa-check"></i> Real-time demand alerts</li>
+                    <li><i class="fa-solid fa-check"></i> Smart matching algorithm</li>
+                    <li><i class="fa-solid fa-check"></i> Analytics dashboard</li>
+                    <li><i class="fa-solid fa-check"></i> Priority support</li>
+                    <li><i class="fa-solid fa-check"></i> Verified seller badge</li>
+                </ul>
+                <button class="btn btn-glow btn-large">Become a Seller</button>
+            </div>
+
+            <div class="pricing-card glass animate-on-scroll" style="--delay: 0.3s">
+                <div class="pricing-header">
+                    <h3>Enterprise</h3>
+                    <div class="pricing-icon">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                </div>
+                <div class="price">
+                    <span class="amount">Custom</span>
+                    <span class="period">Volume Pricing</span>
+                </div>
+                <ul class="pricing-features">
+                    <li><i class="fa-solid fa-check"></i> API access</li>
+                    <li><i class="fa-solid fa-check"></i> Custom integrations</li>
+                    <li><i class="fa-solid fa-check"></i> Dedicated account manager</li>
+                    <li><i class="fa-solid fa-check"></i> White-label options</li>
+                    <li><i class="fa-solid fa-check"></i> SLA guarantees</li>
+                </ul>
+                <button class="btn btn-ghost btn-large">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <div class="section-header animate-on-scroll">
+            <h2>What Our Users Say</h2>
+            <p>Join thousands of satisfied buyers and sellers.</p>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card glass animate-on-scroll" style="--delay: 0.1s">
+                <div class="stars">★★★★★</div>
+                <p>"Reversify saved me ₹15,000 on my laptop purchase. Sellers competed and I got the best deal in just 6 hours!"</p>
+                <div class="testimonial-author">
+                    <img src="https://i.pravatar.cc/100?img=1" alt="User">
+                    <div>
+                        <strong>Priya Sharma</strong>
+                        <span>Mumbai, MH</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card glass animate-on-scroll" style="--delay: 0.2s">
+                <div class="stars">★★★★★</div>
+                <p>"As a seller, Reversify connects me directly with serious buyers. My sales increased by 300% in the first month!"</p>
+                <div class="testimonial-author">
+                    <img src="https://i.pravatar.cc/100?img=4" alt="User">
+                    <div>
+                        <strong>Rajesh Kumar</strong>
+                        <span>Delhi, DL</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card glass animate-on-scroll" style="--delay: 0.3s">
+                <div class="stars">★★★★★</div>
+                <p>"The AI price oracle is amazing! It knew exactly what my car was worth. Got 3 offers within 24 hours."</p>
+                <div class="testimonial-author">
+                    <img src="https://i.pravatar.cc/100?img=7" alt="User">
+                    <div>
+                        <strong>Amit Patel</strong>
+                        <span>Bangalore, KA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta animate-on-scroll">
+        <div class="cta-content glass">
+            <h2>Stop searching.<br>Start requesting.</h2>
+            <p>Join 50,000+ buyers saving time and money every day.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-glow btn-large" onclick="window.location.href='post-demand.html'">
+                    <i class="fa-solid fa-rocket"></i> Post Your First Demand
+                </button>
+                <button class="btn btn-ghost btn-large" onclick="window.location.href='seller-dashboard.html'">
+                    Become a Seller
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                    </div>
+                    <span>Reversify</span>
+                </div>
+                <p>The next generation of e-commerce. Empowering buyers and sellers through AI-driven reverse marketplace.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Platform</h4>
+                    <a href="#marketplace">Marketplace</a>
+                    <a href="post-demand.html">Post Demand</a>
+                    <a href="seller-dashboard.html">For Sellers</a>
+                    <a href="#pricing">Pricing</a>
+                </div>
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Press Kit</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="link-group">
+                    <h4>Resources</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">API Docs</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Community</a>
+                </div>
+                <div class="link-group">
+                    <h4>Legal</h4>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Cookie Policy</a>
+                    <a href="#">Dispute Resolution</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Reversify Technologies Pvt. Ltd. All rights reserved.</p>
+            <div class="footer-meta">
+                <span>Made with <i class="fa-solid fa-heart"></i> in India</span>
+                <span>•</span>
+                <span>ISO 27001 Certified</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Main Script -->
+    <script src="script.js"></script>
 </body>
 </html>
